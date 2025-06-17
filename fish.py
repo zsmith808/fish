@@ -3,33 +3,39 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
-# Sample data
+# Fish app to help log fishing catches and view fishing spots in the Carolinas
+
+# First tab is fish in the area 
+# Second tab is to log a catch
+# Third tab is to view logged catches
+
+# data 
 fishing_spots = {
-    "Lake Tahoe": ["Rainbow Trout", "Mackinaw", "Kokanee Salmon"],
-    "Florida Keys": ["Tarpon", "Snook", "Bonefish"],
-    "Columbia River": ["Chinook Salmon", "Sturgeon", "Smallmouth Bass"]
+    "Lake Heartwell": ["Bass", "Catfish", "Gar"],
+    "Ocean Isle Beach": ["Shark", "Stingray", "flounder"],
+    "Pisgah": ["Rainbow Trout", "Bass", "Bluegill"],
 }
 
-# Session state for storing catch logs
+
 if "catches" not in st.session_state:
     st.session_state.catches = []
 
-st.title("🎣 Fishing Companion App")
+st.title("Fishing Companion App")
 
 tab1, tab2, tab3 = st.tabs(["Fishing Spots", "Log a Catch", "My Catches"])
 
-# ---- Fishing Spots ----
+# Spots 
 with tab1:
-    st.header("📍 Popular Fishing Spots")
+    st.header("Carolina Fishing Spots")
     for spot, species in fishing_spots.items():
-        with st.expander(f"🌊 {spot}"):
+        with st.expander(f"{spot}"):
             st.write("Common Fish Species:")
             for fish in species:
                 st.markdown(f"- {fish}")
 
-# ---- Log a Catch ----
+# Log
 with tab2:
-    st.header("📝 Log Your Catch")
+    st.header("Log Your Catch")
     with st.form("catch_form"):
         name = st.text_input("Fish Species", placeholder="e.g., Rainbow Trout")
         location = st.selectbox("Location", list(fishing_spots.keys()))
@@ -47,9 +53,9 @@ with tab2:
             })
             st.success(f"Caught a {name} at {location} logged!")
 
-# ---- My Catches ----
+# Catches 
 with tab3:
-    st.header("📘 Catch Log")
+    st.header("Catch Log")
     if not st.session_state.catches:
         st.info("No catches logged yet.")
     else:
